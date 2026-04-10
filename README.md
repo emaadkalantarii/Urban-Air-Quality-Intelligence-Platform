@@ -19,7 +19,7 @@ engineering, model interpretability (SHAP), and interactive deployment.
 
 ## Setup
 ```bash
-git clone https://github.com/emaadkalantarii/Urban-Air-Quality-Intelligence-Platform.git
+git clone https://github.com/YOUR_USERNAME/air-quality-intelligence.git
 cd air-quality-intelligence
 python -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\Activate.ps1
