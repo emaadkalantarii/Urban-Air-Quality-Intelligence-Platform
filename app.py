@@ -133,7 +133,7 @@ def render_sidebar():
     with st.sidebar:
         st.image(
             "https://img.shields.io/badge/Air%20Quality-Intelligence-blue?style=for-the-badge",
-            use_column_width=True
+            use_container_width=True
         )
         st.markdown("---")
 
@@ -201,7 +201,7 @@ def page_overview():
         with col:
             st.markdown(
                 f"""<div style="background:{color}22; border-left:4px solid {color};
-                padding:12px; border-radius:4px; margin-bottom:8px;">
+                padding:12px; border-radius:4px; margin-bottom:8px; min-height:90px;">
                 <b style="color:{color}">{label}</b><br>
                 <small>{advisory}</small></div>""",
                 unsafe_allow_html=True
@@ -274,7 +274,7 @@ def page_overview():
             st.image(
                 "outputs/02_hourly_patterns.png",
                 caption="Pollution peaks during morning rush hour (7–9am)",
-                use_column_width=True
+                use_container_width=True
             )
         else:
             st.warning("Run Phase 2 notebook to generate EDA charts")
@@ -284,7 +284,7 @@ def page_overview():
             st.image(
                 "outputs/02_correlation_heatmap.png",
                 caption="Feature correlation matrix — sensor proxies vs actual concentrations",
-                use_column_width=True
+                use_container_width=True
             )
 
 
@@ -518,7 +518,7 @@ def page_shap():
             "Longer bar = more influential feature overall."
         )
         if os.path.exists("outputs/05_shap_global_importance.png"):
-            st.image("outputs/05_shap_global_importance.png", use_column_width=True)
+            st.image("outputs/05_shap_global_importance.png", use_container_width=True)
         else:
             st.warning("Run Phase 5 notebook to generate SHAP charts.")
 
@@ -537,7 +537,7 @@ def page_shap():
             "**Red dots** = high feature value. **Blue dots** = low feature value."
         )
         if os.path.exists("outputs/05_shap_beeswarm.png"):
-            st.image("outputs/05_shap_beeswarm.png", use_column_width=True)
+            st.image("outputs/05_shap_beeswarm.png", use_container_width=True)
         else:
             st.warning("Run Phase 5 notebook to generate SHAP charts.")
 
@@ -567,7 +567,7 @@ def page_shap():
         wf_path = wf_files[wf_option]
 
         if os.path.exists(wf_path):
-            st.image(wf_path, use_column_width=True)
+            st.image(wf_path, use_container_width=True)
         else:
             st.warning("Run Phase 5 notebook to generate waterfall plots.")
 
@@ -583,7 +583,7 @@ def page_shap():
     st.markdown("---")
     st.markdown("#### SHAP for the regression model (NO₂ concentration)")
     if os.path.exists("outputs/05_shap_regression_importance.png"):
-        st.image("outputs/05_shap_regression_importance.png", use_column_width=True)
+        st.image("outputs/05_shap_regression_importance.png", use_container_width=True)
     st.markdown(
         "The regression SHAP values are in **µg/m³** — directly interpretable. "
         "A SHAP value of +33 for `NO2GT_rolling_3h_mean` means: when the 3-hour "
