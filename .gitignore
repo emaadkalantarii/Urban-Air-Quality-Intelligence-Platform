@@ -6,3 +6,4 @@ __pycache__/
 .DS_Store
 data/raw/*.csv
 data/raw/*.xlsx
+.streamlit/secrets.toml
