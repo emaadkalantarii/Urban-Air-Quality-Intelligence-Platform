@@ -6,7 +6,3 @@ __pycache__/
 .DS_Store
 data/raw/*.csv
 data/raw/*.xlsx
-data/processed/
-# Keep XGBoost models (small), exclude large Random Forest pkl files
-models/dummy_*.pkl
-models/rf_*.pkl
