@@ -182,7 +182,7 @@ def render_sidebar():
         st.markdown("---")
         st.markdown(
             "[![GitHub](https://img.shields.io/badge/Source-GitHub-black?logo=github)]"
-            "(https://github.com/YOUR_USERNAME/urban-air-quality-intelligence-platform)"
+            "(https://github.com/emaadkalantarii/Urban-Air-Quality-Intelligence-Platform.git)"
         )
         # ↑ Replace YOUR_USERNAME with your actual GitHub username
 
