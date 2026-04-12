@@ -877,14 +877,31 @@ def main():
     This function is called on every Streamlit rerun.
     """
     # ── Custom CSS ────────────────────────────────────────────────
-    # st.markdown() must be called INSIDE a function, never at module level.
-    # Module-level st.* calls (except set_page_config) crash the app on Cloud.
     st.markdown("""
         <style>
             .block-container { padding-top: 1.5rem; }
             div[data-testid="stMetricValue"] { font-size: 1.4rem; }
         </style>
     """, unsafe_allow_html=True)
+
+    # ── Startup diagnostics (helps debug Cloud file-not-found issues) ─
+    # Check critical files exist before the app tries to load them.
+    critical_files = [
+        "models/xgb_classifier.pkl",
+        "models/xgb_regressor.pkl",
+        "data/processed/scaler.pkl",
+        "data/processed/feature_cols.json",
+    ]
+    missing = [f for f in critical_files if not os.path.exists(f)]
+    if missing:
+        st.error(
+            "**Missing files detected on startup:**\n"
+            + "\n".join(f"- `{f}`" for f in missing)
+            + "\n\nThese files must be committed to your GitHub repo. "
+            "Check that `models/` and `data/processed/` are not in `.gitignore`."
+        )
+        st.stop()
+        # st.stop() halts execution cleanly — shows the error without a full crash
 
     page = render_sidebar()
 
@@ -901,8 +918,13 @@ def main():
 
 
 # ── Entry point ───────────────────────────────────────────────────
-if __name__ == "__main__":
-    # This block runs when the file is executed directly.
-    # Streamlit runs it via `streamlit run app.py`, which calls
-    # the script as a module — so main() is always called.
+# Streamlit executes this file as a module on every rerun.
+# main() must be called unconditionally — not guarded by __name__.
+# We wrap in try/except so any startup crash is shown in the browser
+# rather than silently killing the server (which produces "connection refused").
+try:
     main()
+except Exception as _startup_error:
+    import traceback as _tb
+    st.error("The app crashed on startup. Full traceback below:")
+    st.code(_tb.format_exc())
