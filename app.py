@@ -34,15 +34,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ── Custom CSS — remove default Streamlit top padding ────────────
-st.markdown("""
-    <style>
-        .block-container { padding-top: 1.5rem; }
-        div[data-testid="stMetricValue"] { font-size: 1.4rem; }
-    </style>
-""", unsafe_allow_html=True)
-
 # ── Constants ─────────────────────────────────────────────────────
+# NOTE: CSS injection (st.markdown) must NOT be at module level.
+# It is injected inside main() at runtime instead.
 AQI_LABELS   = ["Good", "Moderate", "Poor", "Very Poor"]
 AQI_COLORS   = ["#4caf50", "#ff9800", "#f44336", "#9c27b0"]
 AQI_ADVISORIES = {
@@ -882,6 +876,16 @@ def main():
     Main entry point. Renders the sidebar and routes to the correct page.
     This function is called on every Streamlit rerun.
     """
+    # ── Custom CSS ────────────────────────────────────────────────
+    # st.markdown() must be called INSIDE a function, never at module level.
+    # Module-level st.* calls (except set_page_config) crash the app on Cloud.
+    st.markdown("""
+        <style>
+            .block-container { padding-top: 1.5rem; }
+            div[data-testid="stMetricValue"] { font-size: 1.4rem; }
+        </style>
+    """, unsafe_allow_html=True)
+
     page = render_sidebar()
 
     # Route to the correct page based on sidebar selection.
