@@ -15,6 +15,10 @@ from datetime import datetime, timezone, timedelta
 
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use("Agg")
+# Force the non-interactive Agg backend — required on Cloud servers
+# which have no display. Must be called BEFORE importing pyplot.
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import requests
