@@ -32,6 +32,14 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# ── Custom CSS — remove default Streamlit top padding ────────────
+st.markdown("""
+    <style>
+        .block-container { padding-top: 1.5rem; }
+        div[data-testid="stMetricValue"] { font-size: 1.4rem; }
+    </style>
+""", unsafe_allow_html=True)
+
 # ── Constants ─────────────────────────────────────────────────────
 AQI_LABELS   = ["Good", "Moderate", "Poor", "Very Poor"]
 AQI_COLORS   = ["#4caf50", "#ff9800", "#f44336", "#9c27b0"]
@@ -174,9 +182,9 @@ def render_sidebar():
         st.markdown("---")
         st.markdown(
             "[![GitHub](https://img.shields.io/badge/Source-GitHub-black?logo=github)]"
-            "(https://github.com/YOUR_USERNAME/air-quality-intelligence)"
+            "(https://github.com/YOUR_USERNAME/urban-air-quality-intelligence-platform)"
         )
-        # Replace YOUR_USERNAME with your actual GitHub username before deploying
+        # ↑ Replace YOUR_USERNAME with your actual GitHub username
 
     return page
 
@@ -219,7 +227,7 @@ def page_overview():
     m1, m2, m3, m4 = st.columns(4)
     with m1:
         st.metric("UCI hourly readings", "9,357",
-                  help="Hourly sensor readings from an Italian city, March 2004 – April 2005")
+                  help="Hourly sensor readings from an Italian city, Jan 2004 – Dec 2005")
     with m2:
         st.metric("Engineered features", "46",
                   help="Including lag features, rolling windows, cyclical time encoding")
@@ -237,22 +245,32 @@ def page_overview():
     # ── Model performance summary ─────────────────────────────────
     st.markdown("### Model performance (test set)")
 
-    perf_data = {
-        "Model":         ["Dummy baseline", "Random Forest", "XGBoost"],
-        "Track":         ["Classification", "Classification", "Classification"],
-        "Accuracy":      ["~60%", "Check Phase 4", "Check Phase 4"],
-        "F1 (macro)":    ["~0.15", "Check Phase 4", "Check Phase 4"],
+    # Classification results (test set) — from Phase 4 notebook
+    cls_data = {
+        "Model":      ["Dummy baseline", "Random Forest", "XGBoost"],
+        "Accuracy":   ["65.9%", "80.8%", "86.6%"],
+        "F1 (macro)": ["0.20",  "0.63",  "0.74"],
+        "F1 (weighted)": ["0.52", "0.75", "0.84"],
     }
-    # We show placeholder values here — you should update these with
-    # your actual Phase 4 results before deploying.
-    # Alternatively, load them from a saved metrics JSON (add to Phase 4).
+    # Regression results (test set) — from Phase 4 notebook
+    reg_data = {
+        "Model":  ["Dummy baseline", "Random Forest", "XGBoost"],
+        "RMSE (µg/m³)": ["70.39", "17.18", "16.49"],
+        "MAE (µg/m³)":  ["57.60", "10.02",  "9.37"],
+        "R²":           ["-1.094", "0.875", "0.885"],
+    }
 
-    st.dataframe(
-        pd.DataFrame(perf_data),
-        use_container_width=True,
-        hide_index=True
-        # use_container_width=True: stretch table to fill the column
-        # hide_index=True: don't show row numbers (0, 1, 2...)
+    cls_col, reg_col = st.columns(2)
+    with cls_col:
+        st.markdown("**Classification — predict AQI category**")
+        st.dataframe(pd.DataFrame(cls_data), use_container_width=True, hide_index=True)
+    with reg_col:
+        st.markdown("**Regression — predict NO₂ concentration**")
+        st.dataframe(pd.DataFrame(reg_data), use_container_width=True, hide_index=True)
+
+    st.caption(
+        "XGBoost outperforms the dummy baseline by +20.7 percentage points in accuracy "
+        "and reduces RMSE from 70.4 to 16.5 µg/m³ — explaining 88.5% of NO₂ variance (R²=0.885)."
     )
 
     st.info(
