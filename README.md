@@ -131,7 +131,7 @@ urban-air-quality-intelligence-platform/
 ### 1. Clone and create environment
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/urban-air-quality-intelligence-platform.git
+git clone https://github.com/emaadkalantarii/Urban-Air-Quality-Intelligence-Platform.git
 cd urban-air-quality-intelligence-platform
 python -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\Activate.ps1
