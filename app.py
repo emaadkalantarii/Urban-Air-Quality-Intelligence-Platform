@@ -176,6 +176,9 @@ def render_sidebar():
             st.error("Models not found — run Phase 4 first")
 
         st.markdown("---")
+        st.markdown("""
+        **Built by:**Emad Kalantari
+        """)
         st.markdown(
             "[![GitHub](https://img.shields.io/badge/Source-GitHub-black?logo=github)]"
             "(https://github.com/emaadkalantarii/Urban-Air-Quality-Intelligence-Platform.git)"
