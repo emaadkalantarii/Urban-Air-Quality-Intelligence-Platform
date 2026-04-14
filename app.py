@@ -177,7 +177,7 @@ def render_sidebar():
 
         st.markdown("---")
         st.markdown("""
-        **Built by:**Emad Kalantari
+        Built by: Emad Kalantari
         """)
         st.markdown(
             "[![GitHub](https://img.shields.io/badge/Source-GitHub-black?logo=github)]"
