@@ -5,9 +5,3 @@ secondaryBackgroundColor = "#F0F4F8"
 textColor = "#1A1A2E"
 font = "sans serif"
 
-# NOTE: Do NOT add [server] headless=false or [browser] serverAddress here.
-# Streamlit Cloud requires headless mode and sets it automatically.
-# Adding headless=false causes the Cloud health check to fail permanently
-# because Cloud servers have no display and cannot open a browser window.
-# Locally, your browser still opens automatically when you run:
-#   streamlit run app.py
